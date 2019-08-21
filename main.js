@@ -40,6 +40,7 @@ Application.registerModule("Solver");
 Application.registerModule("GamerCanni");
 Application.registerModule("Utilities");
 Application.registerModule("Compliment");
+Application.registerModule("BirthDay");
 Application.registerModule("NoMessageProcessor");
 
 
