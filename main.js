@@ -21,6 +21,7 @@ Application.configure({
 
 // resources
 //Application.registerModule("EMPTY");
+Application.registerModule("Redis");
 Application.registerModule("Discord");
 //Application.registerModule("Python");
 Application.registerModule("UserJoined");

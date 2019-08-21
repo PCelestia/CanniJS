@@ -1,0 +1,6 @@
+{
+    "redisConfig": {
+        "port": "env",
+        "host": "env"
+    }
+}
