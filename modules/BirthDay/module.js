@@ -29,11 +29,15 @@ module.exports = class BirthDay extends Module {
 
                 if (msg.isMemberMentioned(Application.modules.Discord.client.user)) {
                     if (Tools.msg_contains(msg, 'today is my birthday')) {
-                        if (this.getCooldown(msg.author.id)) {
-                            return msg.channel.send('no!');
-                        }
+                        Application.modules.Discord.setMessageSent();
 
-                        return this.birthday(msg);
+                        this.getCooldown(msg.author.id).then(function (cooldown) {
+                            if (cooldown !== null) {
+                                return Application.modules.BirthDay.notBirthday(msg);
+                            }
+
+                            return Application.modules.BirthDay.birthday(msg);
+                        });
                     }
                 }
             });
@@ -42,13 +46,18 @@ module.exports = class BirthDay extends Module {
         });
     }
 
+    notBirthday(msg) {
+        msg.channel.send(Tools.parseReply(this.config.notHappyBirthdayAnswer, [msg.author]));
+    }
+
+    // @todo: set proper cooldown time.
     birthday(msg) {
-        msg.channel.send('Happy birthday');
+        msg.channel.send(Tools.parseReply(this.config.happyBirthdayAnswer, [msg.author, Application.modules.Discord.getEmoji('bizaam')]));
         this.setCooldown(msg.author.id, 'cooldown');
     }
 
     setCooldown(key, value) {
-        Application.module.Redis.set(key, value)
+        Application.modules.Redis.set(key, value)
     }
 
     getCooldown(key) {
